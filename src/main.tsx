@@ -1,9 +1,52 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { services, projectSlots } from './data'
 import './styles.css'
 
 type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }
+
+type Holding = {
+  code: string
+  name: string
+  category: string
+  description: string
+  status: string
+  mark: string
+}
+
+const holdings: Holding[] = [
+  {
+    code: '01',
+    name: 'Camelot',
+    category: 'Digital systems & growth',
+    description: 'The operating company for websites, digital systems, automation and commercial growth services.',
+    status: 'Developing',
+    mark: 'C',
+  },
+  {
+    code: '02',
+    name: 'Lumi Project',
+    category: 'Consumer technology',
+    description: 'A growing collection of playful digital products and interactive consumer experiences.',
+    status: 'In development',
+    mark: 'L',
+  },
+  {
+    code: '03',
+    name: 'Tephtie',
+    category: 'Apparel & lifestyle',
+    description: 'An independent clothing and lifestyle brand being developed within the AE group.',
+    status: 'In development',
+    mark: 'T',
+  },
+  {
+    code: '04',
+    name: 'Publishing',
+    category: 'Books, media & intellectual property',
+    description: 'A publishing company for books and original intellectual property. Brand identity still to be named.',
+    status: 'Planned',
+    mark: 'P',
+  },
+]
 
 function SmartLink({ href, children, ...props }: LinkProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -25,10 +68,12 @@ function SmartLink({ href, children, ...props }: LinkProps) {
   return <a href={href} onClick={handleClick} {...props}>{children}</a>
 }
 
+function Arrow() { return <span aria-hidden="true">↗</span> }
+
 function Mark() {
   return (
     <SmartLink href="/" className="brand" aria-label="AE Solutions home">
-      <span className="monogram" aria-hidden="true"><b>A</b><i>E</i></span>
+      <span className="ae-mark" aria-hidden="true">AE</span>
       <span className="brand-copy"><strong>AE</strong><span>SOLUTIONS</span></span>
     </SmartLink>
   )
@@ -49,139 +94,126 @@ function Header() {
           <span></span><span></span>
         </button>
         <nav className={open ? 'nav-links open' : 'nav-links'} aria-label="Primary navigation">
-          <SmartLink href="/#services">Services</SmartLink>
-          <SmartLink href="/#work">Work</SmartLink>
+          <SmartLink href="/#companies">Companies</SmartLink>
           <SmartLink href="/ventures">Ventures</SmartLink>
+          <SmartLink href="/#principles">Principles</SmartLink>
           <SmartLink href="/about">About</SmartLink>
           <SmartLink href="/contact">Contact</SmartLink>
-          <SmartLink href="/contact" className="nav-cta">Start a project <Arrow /></SmartLink>
+          <SmartLink href="/contact" className="nav-cta">Get in touch <Arrow /></SmartLink>
         </nav>
       </div>
     </header>
   )
 }
 
-function Arrow() { return <span aria-hidden="true">↗</span> }
-
 function PageFrame({ children }: { children: React.ReactNode }) {
   return <><Header />{children}<Footer /></>
 }
 
-function HeroGraphic() {
+function MountainArt() {
   return (
-    <div className="system-graphic" aria-hidden="true">
-      <div className="orbital one"></div><div className="orbital two"></div><div className="orbital three"></div>
-      <div className="system-core"><span>AE</span></div>
-      {['WEB','APP','OPS','LEADS','VENTURE'].map((x, i) => <div key={x} className={`node n${i+1}`}><b>{String(i+1).padStart(2,'0')}</b>{x}</div>)}
-      <div className="scanline"></div>
+    <div className="mountain-art" aria-hidden="true">
+      <div className="mist mist-one"></div>
+      <div className="mist mist-two"></div>
+      <div className="ridge ridge-back"></div>
+      <div className="ridge ridge-mid"></div>
+      <div className="ridge ridge-front"></div>
+      <div className="summit-person"><span></span></div>
     </div>
   )
 }
 
 function Home() {
-  useSeo('AE Solutions — Build. Automate. Grow.', 'AE Solutions builds websites, applications, automation, lead-generation systems and digital ventures around commercial outcomes.')
+  useSeo(
+    'AE Solutions — We build, own and grow companies.',
+    'AE Solutions is a growing parent company for independent businesses, digital products, brands and intellectual property.'
+  )
   return (
     <PageFrame>
       <main>
-        <section className="hero">
-          <div className="hero-grid shell">
-            <div className="hero-copy reveal">
-              <div className="eyebrow"><span></span>DIGITAL <i>•</i> OPERATIONS <i>•</i> GROWTH <i>•</i> CAPITAL</div>
-              <h1>BUILD.<br /><em>AUTOMATE.</em><br />GROW.</h1>
-              <p>Websites, applications, automation, lead generation and strategic investment — built around commercial outcomes.</p>
+        <section className="hero holding-hero">
+          <MountainArt />
+          <div className="hero-shade"></div>
+          <div className="shell holding-hero-inner">
+            <div className="holding-copy">
+              <p className="eyebrow">AE SOLUTIONS / GROUP</p>
+              <h1><span>AE SOLUTIONS</span><br />We build, own<br />and grow companies.</h1>
+              <p className="hero-lede">A growing group of independent businesses and products, built with a long-term view.</p>
               <div className="hero-actions">
-                <SmartLink href="/contact" className="button primary">Start a project <Arrow /></SmartLink>
-                <a href="#services" className="button text">Explore capabilities <span>↓</span></a>
+                <a href="#companies" className="button silver">Explore the group <span>↓</span></a>
+                <SmartLink href="/about" className="button ghost">About AE <Arrow /></SmartLink>
               </div>
             </div>
-            <HeroGraphic />
           </div>
-          <div className="hero-foot shell">
-            <span className="hero-index">AE / 001</span>
-            <p>AE Solutions builds the systems behind growing businesses.</p>
-            <span className="scroll-note">SCROLL TO EXPLORE</span>
-          </div>
-        </section>
-
-        <section className="manifesto section-dark">
-          <div className="shell two-col-intro">
-            <p className="section-kicker">AE SOLUTIONS / CAPABILITIES</p>
-            <h2>Five capabilities.<br /><span>One commercial objective.</span></h2>
+          <div className="shell hero-foot">
+            <span>AE / 001</span>
+            <p>BUILD • OWN • DEVELOP • COMPOUND</p>
+            <span className="motto-mini">FORTUNA FAVET FORTIBUS</span>
           </div>
         </section>
 
-        <section className="services-section section-dark" id="services">
-          <div className="shell service-list">
-            {services.map(service => (
-              <SmartLink href={service.slug === 'investments' ? '/ventures' : `/services/${service.slug}`} className="service-row" key={service.slug}>
-                <span className="service-code">{service.code}</span>
-                <h3>{service.title}</h3>
-                <p>{service.short}</p>
-                <span className="service-arrow"><Arrow /></span>
-              </SmartLink>
+        <section className="intro-panel" id="companies">
+          <div className="shell intro-grid">
+            <p className="section-kicker dark">THE GROUP</p>
+            <div>
+              <h2>Small by design today.<br /><span>Built for the long term.</span></h2>
+              <p>AE Solutions provides the parent structure for a developing portfolio of companies, products and intellectual property. Each business has its own purpose. AE provides ownership, direction and a shared long-term standard.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="holdings-section section-dark">
+          <div className="shell holdings-list">
+            {holdings.map((holding) => (
+              <article className="holding-row" key={holding.code}>
+                <span className="holding-code">{holding.code}</span>
+                <div className="holding-mark" aria-hidden="true">{holding.mark}</div>
+                <div className="holding-main">
+                  <p>{holding.category}</p>
+                  <h3>{holding.name}</h3>
+                </div>
+                <p className="holding-description">{holding.description}</p>
+                <span className="holding-status">{holding.status}</span>
+              </article>
             ))}
           </div>
         </section>
 
-        <section className="operating-model">
-          <div className="shell operating-grid">
+        <section className="group-model" id="principles">
+          <div className="shell group-model-grid">
             <div className="sticky-copy">
-              <p className="section-kicker dark">HOW AE WORKS</p>
-              <h2>Execution before theatre.</h2>
-              <p>AE can deliver a defined project or build an ongoing operating relationship where the commercial case supports it.</p>
-              <SmartLink href="/contact" className="inline-link">Discuss a problem <Arrow /></SmartLink>
+              <p className="section-kicker dark">HOW AE THINKS</p>
+              <h2>Separate brands.<br />Shared standards.</h2>
+              <p>AE is not intended to flatten every idea into one brand. The point is the opposite: give each company room to become excellent at one thing while retaining disciplined ownership above it.</p>
             </div>
-            <div className="steps">
+            <div className="principles-list">
               {[
-                ['01','Diagnose the commercial problem','Start with the constraint, bottleneck or opportunity — not a predetermined piece of technology.'],
-                ['02','Build the right system','Design the smallest robust system capable of producing the intended result.'],
-                ['03','Launch and measure','Put the work into the real operating environment and track what changes.'],
-                ['04','Improve, automate and scale','Remove friction, strengthen what works and automate the repeatable parts.']
-              ].map(([n,t,c]) => <article className="step" key={n}><span>{n}</span><div><h3>{t}</h3><p>{c}</p></div></article>)}
+                ['01', 'Build before boasting', 'The portfolio should become impressive because the companies become useful — not because the parent site says they are.'],
+                ['02', 'Let each company specialise', 'Camelot sells digital services. Lumi builds consumer products. Tephtie develops apparel. AE owns the structure, not every customer relationship.'],
+                ['03', 'Keep ownership patient', 'Projects are developed with a long-term view instead of forcing every idea to monetise in the same way or on the same timetable.'],
+                ['04', 'Compound what works', 'Shared knowledge, systems, distribution and capital can move between companies when it genuinely improves the outcome.'],
+              ].map(([n, title, copy]) => (
+                <article className="principle" key={n}><span>{n}</span><div><h3>{title}</h3><p>{copy}</p></div></article>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="work-section section-dark" id="work">
-          <div className="shell section-heading-row">
-            <div><p className="section-kicker">SELECTED WORK</p><h2>Built to be useful.<br />Built to perform.</h2></div>
-            <p className="muted-note">Real projects will replace these slots as the public portfolio is assembled.</p>
-          </div>
-          <div className="shell work-grid">
-            {projectSlots.map((project, i) => <article className="project-card" key={i}>
-              <div className={`project-visual pv${i+1}`}><span>{String(i+1).padStart(2,'0')}</span><div className="project-lines"></div></div>
-              <p className="project-type">{project.type}</p>
-              <h3>{project.title}</h3>
-              <p>{project.copy}</p>
-            </article>)}
+        <section className="venture-statement section-dark">
+          <div className="shell venture-statement-grid">
+            <p className="section-kicker">AE / VENTURES</p>
+            <h2>New businesses belong here when the idea deserves its own identity.</h2>
+            <p>Future companies may be built internally, formed with partners or selectively acquired. There is no requirement to fill the portfolio quickly. Quality and fit matter more than the number of logos.</p>
+            <SmartLink href="/ventures" className="inline-link light-link">View the venture approach <Arrow /></SmartLink>
           </div>
         </section>
 
-        <section className="venture-banner">
-          <div className="shell venture-grid">
-            <div><p className="section-kicker dark">VENTURES / INVESTMENTS</p><h2>We do not only build for clients.</h2></div>
-            <div><p>AE also develops and selectively invests in digital products and commercial opportunities where build capability, operations and distribution can compound together.</p><SmartLink href="/ventures" className="button dark-outline">Explore ventures <Arrow /></SmartLink></div>
-          </div>
-        </section>
-
-        <section className="about-strip section-dark">
-          <div className="shell about-grid">
-            <p className="section-kicker">BUILT AROUND EXECUTION</p>
-            <blockquote>“Useful technology is technology that earns its place in the business.”</blockquote>
-            <p>AE Solutions combines technical build capability with sales, operations and commercial judgement. The objective is simple: solve the right problem and make the result useful in the real world.</p>
-          </div>
-        </section>
-
-        <section className="audience-section">
-          <div className="shell">
-            <div className="section-heading-row light"><div><p className="section-kicker dark">WHO WE WORK WITH</p><h2>Different starting points.<br />The same standard.</h2></div></div>
-            <div className="audience-grid">
-              {[
-                ['01','Established businesses','Better digital systems, stronger customer journeys and less operational friction.'],
-                ['02','Founders','Products built, tested and commercialised with practical scope.'],
-                ['03','Growth teams','Repeatable lead-generation and automation infrastructure that can scale.']
-              ].map(([n,t,c]) => <article key={n}><span>{n}</span><h3>{t}</h3><p>{c}</p></article>)}
-            </div>
+        <section className="motto-section">
+          <div className="shell motto-grid">
+            <div className="motto-rule"></div>
+            <p className="latin">FORTUNA FAVET FORTIBUS</p>
+            <h2>Fortune favours the brave.</h2>
+            <p>Not recklessness. The willingness to build, commit and take calculated risks when the opportunity warrants it.</p>
           </div>
         </section>
 
@@ -191,69 +223,75 @@ function Home() {
   )
 }
 
-function CTA() {
-  return <section className="cta-section"><div className="shell cta-grid"><p className="section-kicker">START A CONVERSATION</p><h2>Have a commercial problem worth solving?</h2><SmartLink href="/contact" className="button light">Start a project <Arrow /></SmartLink></div></section>
-}
-
-function ServicePage({ slug }: { slug: string }) {
-  const service = services.find(s => s.slug === slug)
-  useSeo(service ? `${service.title} — AE Solutions` : 'Page Not Found — AE Solutions', service?.description ?? 'The requested page could not be found.')
-  if (!service) return <NotFound />
-  return <PageFrame><main className="inner-page">
-    <section className="inner-hero section-dark"><div className="shell"><p className="section-kicker">SERVICE / {service.code}</p><h1>{service.title}</h1><p className="lede">{service.description}</p><SmartLink href="/contact" className="button primary">Start a project <Arrow /></SmartLink></div></section>
-    <section className="detail-section"><div className="shell detail-grid"><div><p className="section-kicker dark">WHAT WE CAN DELIVER</p><h2>Practical scope.<br />Clear output.</h2></div><div className="bullet-list">{service.deliverables.map((d,i)=><div key={d}><span>{String(i+1).padStart(2,'0')}</span><p>{d}</p></div>)}</div></div></section>
-    <section className="section-dark detail-section"><div className="shell detail-grid"><div><p className="section-kicker">GOOD FIT WHEN</p><h2>You know the outcome.<br /><span className="subtle">The route needs work.</span></h2></div><div className="fit-list">{service.idealFor.map(x=><div key={x}><span>↳</span><p>{x}</p></div>)}</div></div></section>
-    <section className="process-mini"><div className="shell"><p className="section-kicker dark">PROCESS</p><div className="mini-grid">{['Scope the problem','Define the system','Build and launch','Measure and improve'].map((x,i)=><article key={x}><span>0{i+1}</span><h3>{x}</h3></article>)}</div></div></section>
-    <CTA />
-  </main></PageFrame>
-}
-
 function Ventures() {
-  const venture = services.find(s => s.slug === 'investments')!
-  useSeo('Ventures & Investments — AE Solutions', venture.description)
-  return <PageFrame><main className="inner-page"><section className="inner-hero section-dark"><div className="shell"><p className="section-kicker">AE / VENTURES</p><h1>Build capability.<br /><span>Commercial conviction.</span></h1><p className="lede">{venture.description}</p></div></section>
-    <section className="detail-section"><div className="shell section-heading-row light"><div><p className="section-kicker dark">PORTFOLIO</p><h2>Owned and backed<br />opportunities.</h2></div><p className="muted-note dark-text">Public venture details will be added here as individual products are ready to be announced.</p></div><div className="shell venture-cards">{[1,2,3].map(i=><article key={i}><span>VENTURE / 0{i}</span><div className="venture-placeholder">AE</div><h3>Venture slot</h3><p>Reserved for a verified AE product, investment or strategic partnership.</p></article>)}</div></section>
-    <section className="section-dark detail-section"><div className="shell detail-grid"><div><p className="section-kicker">APPROACH</p><h2>Execution is part of the investment case.</h2></div><div className="prose"><p>AE is best suited to opportunities where building, distribution, operations or automation can materially improve the outcome. That keeps the investment activity close to the capabilities the company can actually influence.</p><p>No inflated claims. No passive logo collection. The focus is on opportunities where practical involvement makes sense.</p></div></div></section><CTA /></main></PageFrame>
+  useSeo('Ventures — AE Solutions', 'How AE Solutions approaches new businesses, products, partnerships and long-term ownership.')
+  return (
+    <PageFrame><main className="inner-page">
+      <section className="inner-hero section-dark"><div className="shell">
+        <p className="section-kicker">AE / VENTURES</p>
+        <h1>Build carefully.<br /><span>Own patiently.</span></h1>
+        <p className="lede">AE is the home for companies and products we believe are worth building over time. The current group is early-stage; the objective is to make each holding stronger before making the group larger.</p>
+      </div></section>
+      <section className="portfolio-page"><div className="shell">
+        <div className="section-heading-row light"><div><p className="section-kicker dark">CURRENT HOLDINGS</p><h2>The group as it stands today.</h2></div><p className="muted-note dark-text">No inflated scale claims. These are developing businesses and projects at different stages.</p></div>
+        <div className="portfolio-cards">{holdings.map(h => <article key={h.code}><div className="portfolio-mark">{h.mark}</div><span>{h.code} / {h.status}</span><h3>{h.name}</h3><p className="portfolio-category">{h.category}</p><p>{h.description}</p></article>)}</div>
+      </div></section>
+      <section className="section-dark detail-section"><div className="shell detail-grid"><div><p className="section-kicker">WHAT BELONGS IN AE</p><h2>A business should earn its independence.</h2></div><div className="prose"><p>A new idea belongs in the group when it has a clear purpose, a credible route to becoming useful and enough identity to stand as its own business or product.</p><p>AE can contribute ownership, operating systems, capital, technical build capability and commercial experience, but it does not need every holding to look or operate the same way.</p></div></div></section>
+      <CTA />
+    </main></PageFrame>
+  )
 }
 
 function About() {
-  useSeo('About — AE Solutions', 'AE Solutions combines technical build capability with sales, operations and commercial judgement.')
-  return <PageFrame><main className="inner-page"><section className="inner-hero section-dark"><div className="shell"><p className="section-kicker">ABOUT AE</p><h1>Built around<br /><span>execution.</span></h1><p className="lede">AE Solutions exists to combine technical build capability with sales, operations and commercial judgement — and use that combination to solve commercially meaningful problems.</p></div></section>
-    <section className="detail-section"><div className="shell detail-grid"><div><p className="section-kicker dark">THE PRINCIPLE</p><h2>Technology should earn its place.</h2></div><div className="prose dark-text"><p>A website should create confidence and action. An application should make a task meaningfully better. Automation should remove genuine friction. Lead generation should create a repeatable path to conversations.</p><p>That is the standard AE is designed around: useful systems, commercial discipline and continual improvement.</p></div></div></section><CTA /></main></PageFrame>
+  useSeo('About — AE Solutions', 'AE Solutions is the parent company for a developing portfolio of independent businesses and products.')
+  return (
+    <PageFrame><main className="inner-page">
+      <section className="inner-hero section-dark"><div className="shell"><p className="section-kicker">ABOUT AE</p><h1>The company<br /><span>behind the companies.</span></h1><p className="lede">AE Solutions exists to build and hold a portfolio of independent businesses, products and intellectual property with a long-term ownership mindset.</p></div></section>
+      <section className="detail-section"><div className="shell detail-grid"><div><p className="section-kicker dark">WHY THE STRUCTURE EXISTS</p><h2>One parent.<br />Different missions.</h2></div><div className="prose dark-text"><p>Camelot should be judged on its digital services. Lumi should be judged on its products. Tephtie should be judged on its clothing. A publishing company should be judged on the books and intellectual property it develops.</p><p>AE gives those businesses a common home without forcing them into the same customer proposition. The parent company is there to hold ownership, allocate attention and resources, and preserve a consistent standard of execution.</p></div></div></section>
+      <CTA />
+    </main></PageFrame>
+  )
 }
 
 function Contact() {
   const [sent, setSent] = useState(false)
-  useSeo('Start a Project — AE Solutions', 'Tell AE Solutions what you need across websites, apps, automation, lead generation or ventures.')
+  useSeo('Contact — AE Solutions', 'Contact AE Solutions about the group, partnerships, ventures or corporate enquiries.')
   const submit = (e: FormEvent) => { e.preventDefault(); setSent(true) }
-  return <PageFrame><main className="contact-page section-dark"><div className="shell contact-grid"><div className="contact-copy"><p className="section-kicker">START A PROJECT</p><h1>Tell us what needs solving.</h1><p>Give us the problem, the commercial context and what a useful outcome would look like. We can work out the route from there.</p><div className="contact-meta"><span>AE / ENQUIRIES</span><span>Website • Apps • Automation • Leads • Ventures</span></div></div>
-    <form className="contact-form" onSubmit={submit}>{sent ? <div className="success-state"><span>✓</span><h2>Enquiry captured.</h2><p>This first version is running in demo mode, so nothing has been transmitted yet. The form is ready to be connected to the final email or CRM endpoint.</p><button type="button" onClick={()=>setSent(false)} className="button primary">Send another</button></div> : <>
-      <Field label="Name"><input required name="name" autoComplete="name" /></Field>
-      <Field label="Company"><input name="company" autoComplete="organization" /></Field>
-      <Field label="Email"><input required type="email" name="email" autoComplete="email" /></Field>
-      <Field label="What do you need?"><select required name="need" defaultValue=""><option value="" disabled>Select one</option><option>Website</option><option>App</option><option>Automation</option><option>Lead Generation</option><option>Investment</option><option>Other</option></select></Field>
-      <Field label="Budget range"><select name="budget" defaultValue=""><option value="">Not sure yet</option><option>Under £1,000</option><option>£1,000 – £3,000</option><option>£3,000 – £10,000</option><option>£10,000 – £25,000</option><option>£25,000+</option></select></Field>
-      <Field label="Project description"><textarea required rows={5} name="description" /></Field>
-      <button className="button primary submit-button" type="submit">Send enquiry <Arrow /></button><p className="form-note">Demo submission only — no data leaves this page yet.</p>
-    </>}</form></div></main></PageFrame>
+  return (
+    <PageFrame><main className="contact-page section-dark"><div className="shell contact-grid">
+      <div className="contact-copy"><p className="section-kicker">AE / CONTACT</p><h1>Start a conversation.</h1><p>For group enquiries, partnerships, venture opportunities or anything that belongs at parent-company level.</p><div className="contact-meta"><span>AE SOLUTIONS</span><span>GROUP • VENTURES • PARTNERSHIPS</span></div></div>
+      <form className="contact-form" onSubmit={submit}>{sent ? <div className="success-state"><span>✓</span><h2>Enquiry captured.</h2><p>This version is still in demo mode, so nothing has been transmitted. The form is ready for the final email or CRM endpoint.</p><button type="button" onClick={() => setSent(false)} className="button silver">Send another</button></div> : <>
+        <Field label="Name"><input required name="name" autoComplete="name" /></Field>
+        <Field label="Company"><input name="company" autoComplete="organization" /></Field>
+        <Field label="Email"><input required type="email" name="email" autoComplete="email" /></Field>
+        <Field label="Enquiry type"><select required name="need" defaultValue=""><option value="" disabled>Select one</option><option>Group / corporate</option><option>Partnership</option><option>Venture opportunity</option><option>Investment</option><option>Media</option><option>Other</option></select></Field>
+        <Field label="Message"><textarea required rows={6} name="description" /></Field>
+        <button className="button silver submit-button" type="submit">Send enquiry <Arrow /></button><p className="form-note">Demo submission only — no data leaves this page yet.</p>
+      </>}</form>
+    </div></main></PageFrame>
+  )
 }
 
-function Field({label, children}: {label:string, children:React.ReactNode}) { return <label className="field"><span>{label}</span>{children}</label> }
+function Field({ label, children }: { label: string, children: React.ReactNode }) { return <label className="field"><span>{label}</span>{children}</label> }
+
+function CTA() {
+  return <section className="cta-section"><div className="shell cta-grid"><p className="section-kicker">AE SOLUTIONS</p><h2>Building something that belongs in the conversation?</h2><SmartLink href="/contact" className="button light">Get in touch <Arrow /></SmartLink></div></section>
+}
 
 function NotFound() {
   useSeo('Page Not Found — AE Solutions', 'The requested page could not be found.')
-  return <PageFrame><main className="not-found section-dark"><div className="shell"><span className="huge-code">404</span><p className="section-kicker">PAGE NOT FOUND</p><h1>Wrong route.<br />Useful destination.</h1><SmartLink href="/" className="button primary">Return home <Arrow /></SmartLink></div></main></PageFrame>
+  return <PageFrame><main className="not-found section-dark"><div className="shell"><span className="huge-code">404</span><p className="section-kicker">PAGE NOT FOUND</p><h1>Wrong route.<br />Back to the group.</h1><SmartLink href="/" className="button silver">Return home <Arrow /></SmartLink></div></main></PageFrame>
 }
 
 function Footer() {
-  return <footer className="footer"><div className="shell footer-top"><Mark /><div className="footer-links"><div><span>SERVICES</span><SmartLink href="/services/web">Web</SmartLink><SmartLink href="/services/apps">Apps</SmartLink><SmartLink href="/services/automation">Automation</SmartLink><SmartLink href="/services/lead-generation">Lead Generation</SmartLink></div><div><span>COMPANY</span><SmartLink href="/ventures">Ventures</SmartLink><SmartLink href="/about">About</SmartLink><SmartLink href="/contact">Contact</SmartLink></div><div><span>EXTERNAL</span><a href="#" onClick={e=>e.preventDefault()}>LinkedIn ↗</a><a href="#" onClick={e=>e.preventDefault()}>Privacy</a></div></div></div><div className="shell footer-bottom"><span>© {new Date().getFullYear()} AE SOLUTIONS</span><span>BUILD / AUTOMATE / GROW</span></div></footer>
+  return <footer className="footer"><div className="shell footer-top"><div><Mark /><p className="footer-motto">FORTUNA FAVET FORTIBUS<br /><span>Fortune favours the brave.</span></p></div><div className="footer-links"><div><span>GROUP</span><SmartLink href="/#companies">Companies</SmartLink><SmartLink href="/ventures">Ventures</SmartLink></div><div><span>COMPANY</span><SmartLink href="/about">About</SmartLink><SmartLink href="/contact">Contact</SmartLink></div><div><span>EXTERNAL</span><a href="#" onClick={e => e.preventDefault()}>LinkedIn ↗</a><a href="#" onClick={e => e.preventDefault()}>Privacy</a></div></div></div><div className="shell footer-bottom"><span>© {new Date().getFullYear()} AE SOLUTIONS</span><span>BUILD / OWN / DEVELOP / COMPOUND</span></div></footer>
 }
 
-function useSeo(title:string, description:string) {
+function useSeo(title: string, description: string) {
   useEffect(() => {
     document.title = title
     let meta = document.querySelector('meta[name="description"]')
-    if (!meta) { meta = document.createElement('meta'); meta.setAttribute('name','description'); document.head.appendChild(meta) }
+    if (!meta) { meta = document.createElement('meta'); meta.setAttribute('name', 'description'); document.head.appendChild(meta) }
     meta.setAttribute('content', description)
   }, [title, description])
 }
@@ -270,7 +308,6 @@ function App() {
     if (path === '/ventures') return <Ventures />
     if (path === '/about') return <About />
     if (path === '/contact') return <Contact />
-    if (path.startsWith('/services/')) return <ServicePage slug={path.split('/').filter(Boolean)[1]} />
     return <NotFound />
   }, [path])
   return page
