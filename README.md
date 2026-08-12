@@ -1,17 +1,24 @@
 # AE Solutions
 
-First production-oriented website build for AE Solutions.
+Production-oriented website build for **AE Solutions**, positioned as the parent company for a developing portfolio of independent businesses, products and intellectual property.
 
-## Positioning
+## Group structure
 
-AE Solutions is structured around five capabilities:
-- Website Design & Development
-- App Development
-- Business Automation
-- Lead Generation
-- Investments & Ventures
+- **AE Solutions** — parent / holding company
+- **Camelot** — digital systems, websites, automation and commercial growth services
+- **Lumi Project** — consumer technology and interactive digital products
+- **Tephtie** — apparel and lifestyle
+- **Publishing company** — books, media and intellectual property; brand name still to be decided
 
-The site deliberately avoids fabricated testimonials, client results, team size, revenue claims or investment performance.
+The website deliberately presents these as developing holdings rather than mature subsidiaries. It avoids fabricated scale, testimonials, revenue, client counts, investment performance or other unsupported claims.
+
+## Brand direction
+
+- Charcoal / storm-grey mountain atmosphere
+- Dark grey typography with fine silver edging
+- Restrained, long-term holding-company tone
+- Motto: `FORTUNA FAVET FORTIBUS` — Fortune favours the brave
+- AE owns the companies; the individual companies own their customer propositions
 
 ## Run locally
 
@@ -29,10 +36,6 @@ npm run build
 ## Routes
 
 - `/`
-- `/services/web`
-- `/services/apps`
-- `/services/automation`
-- `/services/lead-generation`
 - `/ventures`
 - `/about`
 - `/contact`
