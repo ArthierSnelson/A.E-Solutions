@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AE Solutions">
+  <rect width="64" height="64" rx="10" fill="#07090c"/>
+  <path d="M14 45 27 17h6l13 28h-7l-3-7H24l-3 7h-7Zm13-13h7l-3.5-8.5L27 32Z" fill="#777e85" stroke="#d8dde1" stroke-width="1.2"/>
+  <path d="M40 17h12v6h-6v5h6v6h-6v5h6v6H40V17Z" fill="#777e85" stroke="#d8dde1" stroke-width="1.2"/>
+</svg>
